@@ -28,8 +28,8 @@ By using this tool, you agree to the following:
 
 1️⃣ Clone this repository:  
 ```bash
-git clone https://github.com/[YourUsername]/Phishing-Credential-Simulator.git
-cd Phishing-Credential-Simulator
+git clone https://github.com/gokulkannant/phishhunter.git
+cd phishhunter
 ```
 
 2️⃣ Install dependencies:  
@@ -57,6 +57,3 @@ This project is licensed under the **MIT License**. See the **LICENSE** file for
 ## 🛑 Warning  
 **Misuse of this tool for unauthorized activities is illegal.** The maintainers are **not responsible** for any consequences resulting from unethical or unlawful use. **Use responsibly!**  
 
----
-
-Would you like any specific modifications to this README?
