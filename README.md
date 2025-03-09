@@ -1,7 +1,5 @@
 # phishhunter
 
-**Repository Name:** Phishing-Credential-Spammer  
-**Description:**  
 This repository contains a Python-based tool designed to simulate the automated submission of randomly generated usernames and passwords to a target phishing website. The credentials are generated using the `Faker` library, which provides realistic but fictitious user data. The primary purpose of this tool is to assist security researchers and penetration testers in evaluating the resilience of phishing detection systems, analyzing how such websites handle bulk submissions, or demonstrating the risks posed by credential-stuffing attacks in a controlled, ethical environment.
 
 **Features:**  
