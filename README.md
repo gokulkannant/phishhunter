@@ -41,12 +41,12 @@ pip install -r requirements.txt
 
 4️⃣ Run the script:  
 ```bash
-python spammer.py --url "http://example-phishing-site.com/login" --rate 10
+python main.py --url "http://example-phishing-site.com/login" --rate 10
 ```
 
 ## 🚀 Usage Example  
 ```bash
-python spammer.py --url "http://example-site.com/login" --rate 10
+python main.py --url "http://example-site.com/login" --rate 10
 ```
 - `--url` – Target phishing website URL (for research purposes **only**).  
 - `--rate` – Number of submissions per minute (adjustable).  
