@@ -1,9 +1,4 @@
 # phishhunter
-Below is a description you might use for a repository hosting such programs. Note that this description is written with an emphasis on ethical considerations, transparency, and potential legal implications, as the functionality you described could be misused or interpreted as malicious. If this is intended for legitimate purposes (e.g., security testing), it’s critical to frame it as such and include appropriate disclaimers.
-
----
-
-### Repository Description: Phishing Credential Spammer (Ethical Security Testing Tool)
 
 **Repository Name:** Phishing-Credential-Spammer  
 **Description:**  
