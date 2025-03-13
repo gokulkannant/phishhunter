@@ -15,7 +15,7 @@ parser.add_argument("--count", type=int, default=1, help="Number of times to run
 args = parser.parse_args()
 
 # ✅ Update ChromeDriver path
-CHROME_DRIVER_PATH = r"C:\Users\gokul\Desktop\Gokul Github\phishhunter\chromedriver.exe"
+CHROME_DRIVER_PATH = r"C:\Users\gokul\Desktop\Gokul Github\PhishBuster\chromedriver.exe"
 
 # ✅ Initialize WebDriver
 service = Service(CHROME_DRIVER_PATH)
