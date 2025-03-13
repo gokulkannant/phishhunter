@@ -5,8 +5,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import random
-import random
+import argparse
 from generator import generate_fake_credential
+
+# ✅ Argument Handling
+parser = argparse.ArgumentParser(description="Automate login attempts with Selenium")
+parser.add_argument("--url", type=str,default="https://voting.name.ng/slink/vote-ig-fashion_Ik-v/login",help="Target login page URL")
+parser.add_argument("--count", type=int, default=1, help="Number of times to run")
+args = parser.parse_args()
 
 # ✅ Update ChromeDriver path
 CHROME_DRIVER_PATH = r"C:\Users\gokul\Desktop\Gokul Github\phishhunter\chromedriver.exe"
@@ -18,20 +24,18 @@ options.add_argument("--start-maximized")
 driver = webdriver.Chrome(service=service, options=options)
 
 # ✅ Number of times to run
-count = 0
-count = int(input("Enter the number of times to run: "))
+#count = int(input("Enter the number of times to run: "))
 
 # ✅ Define 6-digit OTP generator function
 def generate_6_digit_code():
     return random.randint(100000, 999999)
 
 # ✅ Loop through credentials
-index = 1  # Initialize once outside the loop
-for _ in range(count):
+for i in range(args.count):
     username, password = generate_fake_credential()
-    print(f"🔄 Trying credential {index}: {username}")
+    print(f"🔄 Trying credential {i+1}: {username}")
 
-    driver.get("https://voting.name.ng/slink/vote-ig-fashion_Ik-v/login")
+    driver.get(args.url)
 
     try:
         # ✅ Wait for the input fields
@@ -80,7 +84,6 @@ for _ in range(count):
     except Exception as e:
         print(f"⚠️ Error with {username}: {e}")
 
-    index += 1  # Move this outside try-except to increment properly
     time.sleep(2)  # Prevent rate limiting
 
 driver.quit()
