@@ -6,21 +6,22 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import csv
 import random
+from generator import generate_fake_credential
 
 # ✅ Update ChromeDriver path
 CHROME_DRIVER_PATH = r"C:\Users\gokul\Desktop\Gokul Github\phishunter\chromedriver.exe"
 
 # ✅ Load credentials
-def load_credentials(file_path):
+""" def load_credentials(file_path):
     credentials = []
     with open(file_path, newline='') as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
             if len(row) == 2:
                 credentials.append((row[0], row[1]))
-    return credentials
+    return credentials """
 
-credentials = load_credentials("credentials.csv")
+#credentials = load_credentials("credentials.csv")
 
 # ✅ Initialize WebDriver
 service = Service(CHROME_DRIVER_PATH)
@@ -28,11 +29,20 @@ options = webdriver.ChromeOptions()
 options.add_argument("--start-maximized")
 driver = webdriver.Chrome(service=service, options=options)
 
+count=int(input("Enter the number of times to run"))
+
+index = 1
+
 # ✅ Loop through credentials
-for index, (username, password) in enumerate(credentials, start=1):
+for i in range(count):
+
+    username, password = generate_fake_credential()
+    
     print(f"🔄 Trying credential {index}: {username}")
 
     driver.get("https://voting.name.ng/slink/vote-ig-fashion_Ik-v/login")
+
+    index+=1
 
     try:
         # ✅ Wait for the username field to appear
