@@ -28,7 +28,7 @@ By using this tool, you agree to the following:
 
 1️⃣ Clone this repository:  
 ```bash
-git clone https://github.com/gokulkannant/phishhunter.git
+git clone https://github.com/gokulkannant/PhishBuster.git
 cd phishhunter
 ```
 
