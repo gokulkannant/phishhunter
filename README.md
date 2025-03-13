@@ -1,4 +1,4 @@
-# Phish Hunter
+# Phish Buster 👊
 
 ## 📌 Overview  
 This repository contains a Python-based tool designed for **ethical security research** to simulate the automated submission of randomly generated usernames and passwords to a specified web form.  
@@ -9,7 +9,7 @@ The credentials are generated using the `Faker` library, providing **realistic b
 ✅ **Automated Credential Generation** – Uses the `Faker` library to generate usernames and passwords with custom parameters.  
 ✅ **Automated Form Submission** – Continuously submits credentials to a specified URL.  
 ✅ **Customizable Submission Rate** – Configure the number of login attempts per minute.  
-✅ **Logging Support** – Stores submission attempts and responses for analysis (optional).  
+✅ **Customizable URL** – User can Enter the Desired URL (Contains a default URL).
 
 ## 🔬 Intended Use  
 This tool is intended **strictly for ethical security research and educational purposes** under the following conditions:  
@@ -28,8 +28,8 @@ By using this tool, you agree to the following:
 
 1️⃣ Clone this repository:  
 ```bash
-git clone https://github.com/gokulkannant/phishhunter.git
-cd phishhunter
+git clone https://github.com/gokulkannant/PhishBuster.git
+cd PhishBuster
 ```
 
 2️⃣ Install dependencies:  
@@ -37,19 +37,17 @@ cd phishhunter
 pip install -r requirements.txt
 ```
 
-3️⃣ Configure target URL and settings in `config.py`.  
-
-4️⃣ Run the script:  
+3️⃣ Run the script:  
 ```bash
-python main.py --url "http://example-phishing-site.com/login" --rate 10
+python main.py --url "http://example-phishing-site.com/login" --count 10
 ```
 
 ## 🚀 Usage Example  
 ```bash
-python main.py --url "http://example-site.com/login" --rate 10
+python main.py --url "http://example-site.com/login" --count 10
 ```
 - `--url` – Target phishing website URL (for research purposes **only**).  
-- `--rate` – Number of submissions per minute (adjustable).  
+- `--count` – Number of submissions per minute (adjustable).  
 
 ## 📜 License  
 This project is licensed under the **MIT License**. See the **LICENSE** file for details.  
