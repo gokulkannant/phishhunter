@@ -37,9 +37,7 @@ cd phishhunter
 pip install -r requirements.txt
 ```
 
-3️⃣ Configure target URL and settings in `config.py`.  
-
-4️⃣ Run the script:  
+3️⃣ Run the script:  
 ```bash
 python main.py --url "http://example-phishing-site.com/login" --rate 10
 ```
