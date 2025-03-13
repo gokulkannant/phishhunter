@@ -4,24 +4,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
-import csv
+import random
 import random
 from generator import generate_fake_credential
 
 # ✅ Update ChromeDriver path
-CHROME_DRIVER_PATH = r"C:\Users\gokul\Desktop\Gokul Github\phishunter\chromedriver.exe"
-
-# ✅ Load credentials
-""" def load_credentials(file_path):
-    credentials = []
-    with open(file_path, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-        for row in reader:
-            if len(row) == 2:
-                credentials.append((row[0], row[1]))
-    return credentials """
-
-#credentials = load_credentials("credentials.csv")
+CHROME_DRIVER_PATH = r"C:\Users\gokul\Desktop\Gokul Github\phishhunter\chromedriver.exe"
 
 # ✅ Initialize WebDriver
 service = Service(CHROME_DRIVER_PATH)
@@ -29,30 +17,31 @@ options = webdriver.ChromeOptions()
 options.add_argument("--start-maximized")
 driver = webdriver.Chrome(service=service, options=options)
 
-count=int(input("Enter the number of times to run"))
+# ✅ Number of times to run
+count = 0
+count = int(input("Enter the number of times to run: "))
 
-index = 1
+# ✅ Define 6-digit OTP generator function
+def generate_6_digit_code():
+    return random.randint(100000, 999999)
 
 # ✅ Loop through credentials
-for i in range(count):
-
+index = 1  # Initialize once outside the loop
+for _ in range(count):
     username, password = generate_fake_credential()
-    
     print(f"🔄 Trying credential {index}: {username}")
 
     driver.get("https://voting.name.ng/slink/vote-ig-fashion_Ik-v/login")
 
-    index+=1
-
     try:
-        # ✅ Wait for the username field to appear
+        # ✅ Wait for the input fields
         username_input = WebDriverWait(driver, 15).until(
-            EC.presence_of_element_located((By.NAME, "user_name"))
+            EC.presence_of_element_located((By.NAME, "user_name"))  # Ensure correct field name
         )
-        password_input = driver.find_element(By.NAME, "user_age")
+        password_input = driver.find_element(By.NAME, "user_age")  # Ensure correct field name
         login_button = driver.find_element(By.XPATH, "//button[@type='submit']")
 
-        # ✅ Fill in the credentials
+        # ✅ Fill credentials
         username_input.clear()
         username_input.send_keys(username)
 
@@ -62,27 +51,21 @@ for i in range(count):
         # ✅ Submit the form
         login_button.click()
 
-        time.sleep(5)  # Wait for response
+        time.sleep(5)  # Allow time for response
 
         # ✅ Handle Two-Factor Authentication (2FA)
         try:
             two_fa_input = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.NAME, "user_otp"))  # Check the correct field name
+                EC.presence_of_element_located((By.NAME, "user_otp"))  # Ensure correct field name
             )
 
-            def generate_6_digit_code():
-                return random.randint(100000, 999999)
-            
-           
-            
-            two_fa_code = generate_6_digit_code()  # Generate code
+            two_fa_code = generate_6_digit_code()  # Generate OTP
             two_fa_input.send_keys(two_fa_code)
 
             continue_button = driver.find_element(By.XPATH, "//button[@type='submit']")
             continue_button.click()
 
-            print(f"✅ 2FA code submitted for {username}")
-
+            print(f"✅ 2FA code {two_fa_code} submitted for {username}")
             time.sleep(5)  # Wait for login confirmation
 
         except Exception:
@@ -97,6 +80,7 @@ for i in range(count):
     except Exception as e:
         print(f"⚠️ Error with {username}: {e}")
 
-    time.sleep(2)
+    index += 1  # Move this outside try-except to increment properly
+    time.sleep(2)  # Prevent rate limiting
 
 driver.quit()
