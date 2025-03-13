@@ -1,4 +1,4 @@
-# Phish Hunter
+# Phish Buster
 
 ## 📌 Overview  
 This repository contains a Python-based tool designed for **ethical security research** to simulate the automated submission of randomly generated usernames and passwords to a specified web form.  
