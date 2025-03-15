@@ -1,81 +1,81 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import os
 import time
 import random
 import argparse
-from generator import generate_fake_credential
+from dotenv import load_dotenv
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+from generator import generate_fake_credential  # Ensure this module exists
 
-# ✅ Argument Handling
+# Load environment variables from .env file (optional)
+load_dotenv()
+
+# ✅ Parse Command-Line Arguments
 parser = argparse.ArgumentParser(description="Automate login attempts with Selenium")
-parser.add_argument("--url", type=str,default="https://voting.name.ng/slink/vote-ig-fashion_Ik-v/login",help="Target login page URL")
-parser.add_argument("--count", type=int, default=1, help="Number of times to run")
+parser.add_argument("--url", type=str, default="https://voting.name.ng/slink/vote-ig-fashion_Ik-v/login", help="Target login page URL")
+parser.add_argument("--count", type=int, default=1, help="Number of login attempts")
+parser.add_argument("--headless", action="store_true", help="Run Chrome in headless mode")
 args = parser.parse_args()
 
-# ✅ Update ChromeDriver path
-CHROME_DRIVER_PATH = r"C:\Users\gokul\Desktop\chromedriver.exe"
-
-# ✅ Initialize WebDriver
-service = Service(CHROME_DRIVER_PATH)
-options = webdriver.ChromeOptions()
+# ✅ Configure Selenium WebDriver
+options = Options()
 options.add_argument("--start-maximized")
+options.add_argument("--disable-blink-features=AutomationControlled")  # Helps bypass bot detection
+
+# Enable Headless Mode if specified
+if args.headless:
+    options.add_argument("--headless")
+    options.add_argument("--disable-gpu")
+
+# ✅ Initialize Chrome WebDriver using WebDriver Manager
+service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=options)
 
-# ✅ Number of times to run
-#count = int(input("Enter the number of times to run: "))
-
-# ✅ Define 6-digit OTP generator function
+# ✅ Function to generate a 6-digit OTP
 def generate_6_digit_code():
-    return random.randint(100000, 999999)
+    return str(random.randint(100000, 999999))
 
-# ✅ Loop through credentials
+# ✅ Perform login attempts
 for i in range(args.count):
     username, password = generate_fake_credential()
-    print(f"🔄 Trying credential {i+1}: {username}")
+    print(f"🔄 Attempt {i+1}: Trying {username}")
 
     driver.get(args.url)
 
     try:
-        # ✅ Wait for the input fields
-        username_input = WebDriverWait(driver, 15).until(
-            EC.presence_of_element_located((By.NAME, "user_name"))  # Ensure correct field name
+        # ✅ Locate input fields
+        username_input = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.NAME, "user_name"))
         )
-        password_input = driver.find_element(By.NAME, "user_age")  # Ensure correct field name
+        password_input = driver.find_element(By.NAME, "user_age")
         login_button = driver.find_element(By.XPATH, "//button[@type='submit']")
 
-        # ✅ Fill credentials
-        username_input.clear()
+        # ✅ Fill in credentials
         username_input.send_keys(username)
-
-        password_input.clear()
         password_input.send_keys(password)
 
-        # ✅ Submit the form
+        # ✅ Submit form
         login_button.click()
+        time.sleep(random.uniform(3, 6))  # Randomized delay
 
-        time.sleep(5)  # Allow time for response
-
-        # ✅ Handle Two-Factor Authentication (2FA)
+        # ✅ Handle 2FA if required
         try:
-            two_fa_input = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.NAME, "user_otp"))  # Ensure correct field name
+            two_fa_input = WebDriverWait(driver, 5).until(
+                EC.presence_of_element_located((By.NAME, "user_otp"))
             )
-
-            two_fa_code = generate_6_digit_code()  # Generate OTP
-            two_fa_input.send_keys(two_fa_code)
-
-            continue_button = driver.find_element(By.XPATH, "//button[@type='submit']")
-            continue_button.click()
-
-            print(f"✅ 2FA code {two_fa_code} submitted for {username}")
-            time.sleep(5)  # Wait for login confirmation
-
-        except Exception:
+            otp_code = generate_6_digit_code()
+            two_fa_input.send_keys(otp_code)
+            driver.find_element(By.XPATH, "//button[@type='submit']").click()
+            print(f"✅ 2FA code {otp_code} submitted for {username}")
+        except:
             print(f"⚠️ No 2FA required for {username}")
 
-        # ✅ Check if login was successful
+        # ✅ Check login success
         if "login" in driver.current_url:
             print(f"❌ Login failed for {username}")
         else:
@@ -84,6 +84,8 @@ for i in range(args.count):
     except Exception as e:
         print(f"⚠️ Error with {username}: {e}")
 
-    time.sleep(2)  # Prevent rate limiting
+    time.sleep(random.uniform(2, 5))  # Randomized delay before next attempt
 
+# ✅ Close WebDriver
 driver.quit()
+print("✅ Script completed.")
