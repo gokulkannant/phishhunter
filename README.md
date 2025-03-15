@@ -65,6 +65,8 @@ python main.py --url "http://example-site.com/login" --count 10
 python main.py --url "http://example-site.com/login" --headless --count 10
 ```
 
+- `--headless` – Runs in headless mode.
+
 ## 📜 License
 
 This project is licensed under the **MIT License**. See the **LICENSE** file for details.
