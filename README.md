@@ -59,7 +59,7 @@ python main.py --url "http://example-site.com/login" --count 10
 - `--url` – Target phishing website URL (for research purposes **only**).
 - `--count` – Number of submissions per minute (adjustable).
 
-# 🚀 Run in Headless Mode
+### 🚀 Run in Headless Mode
 
 ```bash
 python main.py --url "http://example-site.com/login" --headless --count 10
